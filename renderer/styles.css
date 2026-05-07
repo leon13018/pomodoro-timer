@@ -1,0 +1,273 @@
+/* ── 配色方案：溫暖・柔和・簡潔 ──────────────────── */
+:root {
+  --bg-primary:   #F7F2EC;   /* 背景 */
+  --bg-secondary: #EAE3DB;   /* 輔助背景（面板、Tab 底色）*/
+  --bg-card:      #F1E8E0;   /* 淺輔助（卡片、輸入框背景）*/
+  --accent-work:  #C65A4A;   /* 主色：工作模式（珊瑚紅）*/
+  --accent-break: #7A9E9F;   /* 休息模式（柔霧藍綠，與暖色互補）*/
+  --text-primary: #6F655E;   /* 文本主色 */
+  --text-muted:   #D9D2CC;   /* 弱化文字 */
+  --ring-track:   #E5E0DA;   /* 分割線 / 輪廓（進度條底環）*/
+  --highlight:    #F8DCCF;   /* 高亮 */
+  --radius:       12px;
+  --transition:   0.3s ease;
+  --accent:       var(--accent-work);
+}
+
+body.break-mode {
+  --accent: var(--accent-break);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  padding: 20px 20px 16px;
+  gap: 14px;
+  overflow-y: auto;
+}
+
+.app::-webkit-scrollbar {
+  width: 4px;
+}
+.app::-webkit-scrollbar-track {
+  background: transparent;
+}
+.app::-webkit-scrollbar-thumb {
+  background: var(--ring-track);
+  border-radius: 2px;
+}
+
+/* ── 模式 Tab ───────────────────────────────────── */
+.mode-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--bg-secondary);
+  padding: 4px;
+  border-radius: 50px;
+  flex-shrink: 0;
+}
+
+.tab-btn {
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  opacity: 0.5;
+  padding: 6px 14px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background var(--transition), color var(--transition), opacity var(--transition);
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  opacity: 0.8;
+}
+
+.tab-btn.active {
+  background: var(--accent);
+  color: #fff;
+  opacity: 1;
+}
+
+/* ── 圓形進度條 ─────────────────────────────────── */
+.timer-container {
+  position: relative;
+  width: 210px;
+  height: 210px;
+  flex-shrink: 0;
+}
+
+.progress-ring {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  filter: drop-shadow(0 4px 12px rgba(198, 90, 74, 0.15));
+}
+
+body.break-mode .progress-ring {
+  filter: drop-shadow(0 4px 12px rgba(122, 158, 159, 0.2));
+}
+
+.ring-track {
+  fill: none;
+  stroke: var(--ring-track);
+  stroke-width: 8;
+}
+
+.ring-progress {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 552.92;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear, stroke var(--transition);
+}
+
+.time-display {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52px;
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 2px;
+  color: var(--text-primary);
+}
+
+/* ── 番茄點 ─────────────────────────────────────── */
+.pomodoro-dots {
+  display: flex;
+  gap: 10px;
+  height: 16px;
+  align-items: center;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: transparent;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.dot.filled {
+  background: var(--accent);
+}
+
+/* ── 控制按鈕 ───────────────────────────────────── */
+.controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.btn {
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: transform 0.1s, box-shadow var(--transition), background var(--transition);
+  outline: none;
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  padding: 12px 36px;
+  font-size: 16px;
+  min-width: 110px;
+  box-shadow: 0 4px 14px rgba(198, 90, 74, 0.3);
+}
+
+body.break-mode .btn-primary {
+  box-shadow: 0 4px 14px rgba(122, 158, 159, 0.3);
+}
+
+.btn-secondary {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  opacity: 0.7;
+  padding: 10px 20px;
+  border: 1px solid var(--ring-track);
+}
+
+.btn-secondary:hover {
+  opacity: 1;
+}
+
+.btn-full {
+  width: 100%;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: none;
+}
+
+/* ── 設定 ───────────────────────────────────────── */
+.settings-toggle {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: var(--text-primary);
+  opacity: 0.45;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: opacity var(--transition);
+}
+
+.settings-toggle:hover {
+  opacity: 0.8;
+}
+
+.settings-panel {
+  width: 100%;
+  background: var(--bg-secondary);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid var(--ring-track);
+}
+
+.settings-panel[hidden] {
+  display: none;
+}
+
+.settings-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.settings-panel input[type="number"] {
+  width: 60px;
+  background: var(--bg-card);
+  border: 1px solid var(--ring-track);
+  border-radius: 6px;
+  color: var(--text-primary);
+  padding: 4px 8px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.settings-panel input[type="number"]:focus {
+  outline: 1px solid var(--accent);
+  border-color: var(--accent);
+}
+
+.settings-panel input[type="checkbox"] {
+  accent-color: var(--accent);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}

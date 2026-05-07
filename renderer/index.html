@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>番茄钟</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <div class="mode-tabs">
+      <button class="tab-btn active" data-phase="work">專注工作</button>
+      <button class="tab-btn" data-phase="short">短休息</button>
+      <button class="tab-btn" data-phase="long">長休息</button>
+    </div>
+
+    <div class="timer-container">
+      <svg class="progress-ring" viewBox="0 0 200 200">
+        <circle class="ring-track" cx="100" cy="100" r="88"/>
+        <circle class="ring-progress" cx="100" cy="100" r="88" id="progress-arc"/>
+      </svg>
+      <div class="time-display" id="time-display">25:00</div>
+    </div>
+
+    <div class="pomodoro-dots" id="pomodoro-dots"></div>
+
+    <div class="controls">
+      <button id="btn-reset" class="btn btn-secondary">重置</button>
+      <button id="btn-start" class="btn btn-primary">開始</button>
+      <button id="btn-skip"  class="btn btn-secondary">跳過</button>
+    </div>
+
+    <button class="settings-toggle" id="settings-toggle">⚙ 設定</button>
+
+    <div class="settings-panel" id="settings-panel" hidden>
+      <div class="settings-row">
+        <label for="set-work">工作時長（分鐘）</label>
+        <input type="number" id="set-work" min="1" max="60" value="25">
+      </div>
+      <div class="settings-row">
+        <label for="set-short">短休息時長（分鐘）</label>
+        <input type="number" id="set-short" min="1" max="30" value="5">
+      </div>
+      <div class="settings-row">
+        <label for="set-long">長休息時長（分鐘）</label>
+        <input type="number" id="set-long" min="1" max="60" value="15">
+      </div>
+      <div class="settings-row">
+        <label for="set-ontop">始終置頂</label>
+        <input type="checkbox" id="set-ontop">
+      </div>
+      <button id="btn-apply" class="btn btn-primary btn-full">套用</button>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
