@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\LIN HONG\\\\Desktop\\\\first-cc\" -Recurse)",
+      "Bash(Select-Object FullName, PSIsContainer)",
+      "Bash(Format-Table -AutoSize)",
+      "Bash(npm --version)",
+      "PowerShell(npm *)",
+      "Bash(npm -v)",
+      "PowerShell(New-Item *)",
+      "PowerShell(winget *)",
+      "PowerShell(npm install *)",
+      "PowerShell(npm start *)",
+      "PowerShell(git config *)",
+      "PowerShell(gh auth *)",
+      "PowerShell(Get-Command *)",
+      "PowerShell(& \"C:\\\\Program Files\\\\GitHub CLI\\\\gh.exe\" auth status)",
+      "PowerShell(Get-Content *)",
+      "PowerShell(Test-Path *)",
+      "PowerShell(Get-ChildItem *)",
+      "Bash(gh repo *)",
+      "PowerShell(Get-Item *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "PowerShell([System.Environment]::SetEnvironmentVariable\\(\"EDITOR\", \"code --wait\", \"User\"\\))",
+      "PowerShell([System.Environment]::GetEnvironmentVariable\\(\"EDITOR\", \"User\"\\))",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\LIN HONG\\\\.claude\" -Recurse -Depth 2)"
+    ]
+  }
+}
