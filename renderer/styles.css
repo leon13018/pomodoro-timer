@@ -1,14 +1,16 @@
-/* ── 配色方案：溫暖・柔和・簡潔 ──────────────────── */
+/* ── 配色方案：深色・簡潔 ──────────────────────────── */
 :root {
-  --bg-primary:   #F7F2EC;   /* 背景 */
-  --bg-secondary: #EAE3DB;   /* 輔助背景（面板、Tab 底色）*/
-  --bg-card:      #F1E8E0;   /* 淺輔助（卡片、輸入框背景）*/
-  --accent-work:  #C65A4A;   /* 主色：工作模式（珊瑚紅）*/
-  --accent-break: #7A9E9F;   /* 休息模式（柔霧藍綠，與暖色互補）*/
-  --text-primary: #6F655E;   /* 文本主色 */
-  --text-muted:   #D9D2CC;   /* 弱化文字 */
-  --ring-track:   #E5E0DA;   /* 分割線 / 輪廓（進度條底環）*/
-  --highlight:    #F8DCCF;   /* 高亮 */
+  --bg-primary:   #1C1C28;   /* 背景 */
+  --bg-secondary: #252535;   /* 輔助背景（面板、Tab 底色）*/
+  --bg-card:      #20202E;   /* 卡片、輸入框背景 */
+  --accent-work:      #E06C5A;      /* 主色：工作模式（珊瑚紅）*/
+  --accent-work-rgb:  224, 108, 90;
+  --accent-break:     #5AAEB0;      /* 休息模式（柔霧藍綠）*/
+  --accent-break-rgb: 90, 174, 176;
+  --text-primary: #C8C3BD;   /* 文本主色 */
+  --text-muted:   #4A4A5E;   /* 弱化文字 */
+  --ring-track:   #2E2E42;   /* 分割線 / 輪廓（進度條底環）*/
+  --highlight:    #3A2525;   /* 高亮 */
   --radius:       12px;
   --transition:   0.3s ease;
   --accent:       var(--accent-work);
@@ -99,11 +101,11 @@ body {
   width: 100%;
   height: 100%;
   transform: rotate(-90deg);
-  filter: drop-shadow(0 4px 12px rgba(198, 90, 74, 0.15));
+  filter: drop-shadow(0 4px 12px rgba(var(--accent-work-rgb), 0.3));
 }
 
 body.break-mode .progress-ring {
-  filter: drop-shadow(0 4px 12px rgba(122, 158, 159, 0.2));
+  filter: drop-shadow(0 4px 12px rgba(var(--accent-break-rgb), 0.3));
 }
 
 .ring-track {
@@ -183,11 +185,11 @@ body.break-mode .progress-ring {
   padding: 12px 36px;
   font-size: 16px;
   min-width: 110px;
-  box-shadow: 0 4px 14px rgba(198, 90, 74, 0.3);
+  box-shadow: 0 4px 14px rgba(var(--accent-work-rgb), 0.4);
 }
 
 body.break-mode .btn-primary {
-  box-shadow: 0 4px 14px rgba(122, 158, 159, 0.3);
+  box-shadow: 0 4px 14px rgba(var(--accent-break-rgb), 0.4);
 }
 
 .btn-secondary {

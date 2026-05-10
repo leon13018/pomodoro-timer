@@ -4,7 +4,7 @@ const { app, BrowserWindow, ipcMain, Notification, nativeTheme } = require('elec
 const path = require('path')
 
 app.setAppUserModelId('com.pomodoro.app')
-nativeTheme.themeSource = 'light'
+nativeTheme.themeSource = 'dark'
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -12,7 +12,7 @@ function createWindow() {
     height: 580,
     resizable: false,
     alwaysOnTop: false,
-    backgroundColor: '#F7F2EC',
+    backgroundColor: '#1C1C28',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
