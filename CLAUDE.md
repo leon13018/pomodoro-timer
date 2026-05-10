@@ -2,28 +2,28 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Commands
+## 常用指令
 
 ```powershell
-npm start        # Launch the Electron app
+npm start        # 啟動 Electron 應用程式
 ```
 
-No build step, linter, or test suite is configured.
+目前未設定任何建置步驟、Linter 或測試套件。
 
-## Architecture
+## 架構說明
 
-This is a single-window Electron app following the standard three-layer structure:
+這是一個單視窗 Electron 應用程式，採用標準三層結構：
 
-- **`main.js`** — Main process. Creates a fixed-size (400×580) `BrowserWindow` with sandbox enabled. Handles two IPC channels: `show-notification` (system notification via Electron's `Notification` API) and `toggle-always-on-top`.
-- **`preload.js`** — Bridge between main and renderer. Exposes `window.electronAPI.showNotification()` and `window.electronAPI.toggleAlwaysOnTop()` via `contextBridge`.
-- **`renderer/`** — Renderer process (no Node access).
-  - `index.html` — UI shell with CSP (`script-src 'self'`, `media-src 'none'`).
-  - `styles.css` — CSS custom properties for theming. Work mode uses `--accent-work` (#C65A4A); break mode adds `body.break-mode` class to switch to `--accent-break` (#7A9E9F).
-  - `renderer.js` — All timer logic, audio, and UI updates. No framework.
+- **`main.js`** — 主程序。建立固定尺寸（400×580）且啟用 sandbox 的 `BrowserWindow`。處理兩個 IPC 頻道：`show-notification`（透過 Electron 的 `Notification` API 發送系統通知）與 `toggle-always-on-top`。
+- **`preload.js`** — 主程序與渲染程序之間的橋接層。透過 `contextBridge` 將 `window.electronAPI.showNotification()` 和 `window.electronAPI.toggleAlwaysOnTop()` 暴露給渲染程序。
+- **`renderer/`** — 渲染程序（無法存取 Node.js）。
+  - `index.html` — UI 結構，含 CSP 設定（`script-src 'self'`、`media-src 'none'`）。
+  - `styles.css` — 以 CSS 自訂屬性實作主題切換。工作模式使用 `--accent-work`（#C65A4A）；休息模式在 body 加上 `break-mode` class，切換為 `--accent-break`（#7A9E9F）。
+  - `renderer.js` — 所有計時邏輯、音效與 UI 更新，無使用任何框架。
 
-## Key renderer.js details
+## renderer.js 重點細節
 
-- **Audio**: `AudioContext` is lazy-initialized on first user click to satisfy Chromium's autoplay policy. Tones are synthesized via `OscillatorNode` + `GainNode` with fade-in/out to prevent click artifacts.
-- **SVG progress ring**: `r=88`, `CIRCUMFERENCE = 2π×88 ≈ 552.92`. Progress is driven by `stroke-dashoffset`.
-- **State**: A single mutable `STATE` object (`phase`, `secondsLeft`, `totalSeconds`, `isRunning`, `completedPomodoros`, `intervalId`). `CONFIG` holds durations and can be modified at runtime via the settings panel.
-- **Phase flow**: work → short break (or long break every 4 pomodoros) → work. `enterPhase()` is the single entry point for all phase transitions.
+- **音效**：`AudioContext` 在使用者首次點擊時才初始化（懶初始化），以符合 Chromium 的 autoplay 政策。音調透過 `OscillatorNode` + `GainNode` 合成，並加入淡入淡出避免爆音。
+- **SVG 進度環**：半徑 `r=88`，`CIRCUMFERENCE = 2π×88 ≈ 552.92`，進度由 `stroke-dashoffset` 驅動。
+- **狀態管理**：以單一可變的 `STATE` 物件管理（`phase`、`secondsLeft`、`totalSeconds`、`isRunning`、`completedPomodoros`、`intervalId`）。`CONFIG` 儲存各階段時長，可在執行時透過設定面板修改。
+- **階段流程**：工作 → 短休息（每完成 4 個番茄後進入長休息）→ 工作。`enterPhase()` 是所有階段切換的唯一入口。
