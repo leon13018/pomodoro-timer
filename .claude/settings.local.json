@@ -40,7 +40,8 @@
       "Bash(python .claude/skills/qiuzhi-creative/scripts/generate_image.py --prompt 'A restaurant menu cover for Qiuzhi Restaurant. Portrait 3:4 format. Warm, appetizing aesthetic with rich visual layers. Hero composition featuring signature dishes — beautifully plated food with seasonal autumn imagery: warm amber tones, fallen leaves, earthy textures. Close-up food photography feel with depth and richness. Restaurant name 秋芝餐廳 and Qiuzhi Restaurant in refined typography. Mint-green logo subtly placed. Inviting, lush, makes the viewer crave the food immediately.' --out outputs/qiuzhi_menu_cover_v3.png)",
       "Bash(python .claude/skills/qiuzhi-creative/scripts/generate_image.py --prompt 'A minimalist restaurant menu cover for Qiuzhi Restaurant featuring the signature grilled fish. Portrait format. Abundant white space, soft ivory background. A single beautifully plated whole grilled fish as the hero element, styled with elegant simplicity — fresh herbs, delicate garnish, clean plate. Refined thin-stroke typography displaying 秋芝餐廳 and Qiuzhi Restaurant. Mint-green logo placed subtly. No clutter, serene and premium feel, like a high-end Japanese restaurant menu.' --out outputs/qiuzhi_menu_grilled_fish.png)",
       "Bash(git rm *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(npm start *)"
     ]
   }
 }

@@ -1,60 +1,98 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'none'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>番茄钟</title>
+  <title>番茄鐘</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="app">
-    <div class="mode-tabs">
-      <button class="tab-btn active" data-phase="work">專注工作</button>
+
+    <nav class="mode-tabs">
+      <button class="tab-btn active" data-phase="work">專注</button>
       <button class="tab-btn" data-phase="short">短休息</button>
       <button class="tab-btn" data-phase="long">長休息</button>
-    </div>
+    </nav>
 
     <div class="timer-container">
-      <svg class="progress-ring" viewBox="0 0 200 200">
-        <circle class="ring-track" cx="100" cy="100" r="88"/>
+      <svg class="progress-ring" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <circle class="ring-bg" cx="100" cy="100" r="83"/>
+        <g id="ticks"></g>
+        <circle class="ring-track"    cx="100" cy="100" r="88"/>
         <circle class="ring-progress" cx="100" cy="100" r="88" id="progress-arc"/>
       </svg>
-      <div class="time-display" id="time-display">25:00</div>
+      <div class="timer-center">
+        <div class="time-display" id="time-display">25:00</div>
+        <div class="phase-label"  id="phase-label">FOCUS</div>
+      </div>
     </div>
 
     <div class="pomodoro-dots" id="pomodoro-dots"></div>
 
     <div class="controls">
-      <button id="btn-reset" class="btn btn-secondary">重置</button>
+      <button id="btn-reset" class="btn btn-ghost">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1 4 1 10 7 10"/>
+          <path d="M3.51 15a9 9 0 1 0 .49-5.1"/>
+        </svg>
+        重置
+      </button>
+
       <button id="btn-start" class="btn btn-primary">開始</button>
-      <button id="btn-skip"  class="btn btn-secondary">跳過</button>
+
+      <button id="btn-skip" class="btn btn-ghost">
+        跳過
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="5 4 15 12 5 20 5 4"/>
+          <line x1="19" y1="5" x2="19" y2="19"/>
+        </svg>
+      </button>
     </div>
 
-    <button class="settings-toggle" id="settings-toggle">⚙ 設定</button>
+    <button class="settings-toggle" id="settings-toggle">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+      設定
+    </button>
 
-    <div class="settings-panel" id="settings-panel" hidden>
+    <div class="settings-panel" id="settings-panel">
       <div class="settings-row">
-        <label for="set-work">工作時長（分鐘）</label>
-        <input type="number" id="set-work" min="1" max="60" value="25">
+        <label for="set-work">專注時長</label>
+        <div class="input-group">
+          <input type="number" id="set-work" min="1" max="60" value="25">
+          <span class="unit">分鐘</span>
+        </div>
       </div>
       <div class="settings-row">
-        <label for="set-short">短休息時長（分鐘）</label>
-        <input type="number" id="set-short" min="1" max="30" value="5">
+        <label for="set-short">短休息</label>
+        <div class="input-group">
+          <input type="number" id="set-short" min="1" max="30" value="5">
+          <span class="unit">分鐘</span>
+        </div>
       </div>
       <div class="settings-row">
-        <label for="set-long">長休息時長（分鐘）</label>
-        <input type="number" id="set-long" min="1" max="60" value="15">
+        <label for="set-long">長休息</label>
+        <div class="input-group">
+          <input type="number" id="set-long" min="1" max="60" value="15">
+          <span class="unit">分鐘</span>
+        </div>
       </div>
       <div class="settings-row">
-        <label for="set-ontop">始終置頂</label>
-        <input type="checkbox" id="set-ontop">
+        <label for="set-ontop">視窗置頂</label>
+        <label class="toggle">
+          <input type="checkbox" id="set-ontop">
+          <span class="toggle-track"></span>
+        </label>
       </div>
-      <button id="btn-apply" class="btn btn-primary btn-full">套用</button>
+      <button id="btn-apply" class="btn btn-primary btn-full">套用設定</button>
     </div>
+
   </div>
-
   <script src="renderer.js"></script>
 </body>
 </html>

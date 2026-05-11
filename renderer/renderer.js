@@ -22,7 +22,9 @@ const STATE = {
 const el = {
   tabBtns:        document.querySelectorAll('.tab-btn'),
   timeDisplay:    document.getElementById('time-display'),
+  phaseLabel:     document.getElementById('phase-label'),
   progressArc:    document.getElementById('progress-arc'),
+  progressRing:   document.querySelector('.progress-ring'),
   pomodoroDots:   document.getElementById('pomodoro-dots'),
   btnStart:       document.getElementById('btn-start'),
   btnReset:       document.getElementById('btn-reset'),
@@ -44,6 +46,34 @@ const dotEls = Array.from({ length: CONFIG.pomodorosBeforeLongBreak }, () => {
   return dot
 })
 
+// ── 刻度標記 ────────────────────────────────────────────────────
+function initTickMarks() {
+  const group = document.getElementById('ticks')
+  const NUM_TICKS = 60
+  const CX = 100, CY = 100
+
+  for (let i = 0; i < NUM_TICKS; i++) {
+    // angle=0 對應 SVG 右側（3點鐘），整個 SVG 旋轉 -90° 後視覺上為頂部（12點鐘）
+    const angle = (i / NUM_TICKS) * 2 * Math.PI
+    const isMajor = i % 5 === 0
+    const rOuter = 97
+    const rInner = isMajor ? 91 : 93
+
+    const x1 = (CX + rOuter * Math.cos(angle)).toFixed(3)
+    const y1 = (CY + rOuter * Math.sin(angle)).toFixed(3)
+    const x2 = (CX + rInner * Math.cos(angle)).toFixed(3)
+    const y2 = (CY + rInner * Math.sin(angle)).toFixed(3)
+
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line')
+    line.setAttribute('x1', x1)
+    line.setAttribute('y1', y1)
+    line.setAttribute('x2', x2)
+    line.setAttribute('y2', y2)
+    line.className.baseVal = isMajor ? 'tick major' : 'tick'
+    group.appendChild(line)
+  }
+}
+
 // ── 輔助函式 ────────────────────────────────────────────────────
 
 // CONFIG 是可變的（使用者可修改），所以在呼叫時才讀取而非快取
@@ -53,6 +83,12 @@ function phaseDuration(phase) {
   return CONFIG.longBreak
 }
 
+function phaseText(phase) {
+  if (phase === 'work')  return 'FOCUS'
+  if (phase === 'short') return 'BREAK'
+  return 'LONG BREAK'
+}
+
 function formatTime(s) {
   return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`
 }
@@ -60,6 +96,7 @@ function formatTime(s) {
 function stopTimer() {
   clearInterval(STATE.intervalId)
   STATE.isRunning = false
+  el.progressRing.classList.remove('running')
 }
 
 // ── Web Audio API ──────────────────────────────────────────────
@@ -111,6 +148,7 @@ function startTimer() {
   if (STATE.isRunning) return
   STATE.isRunning = true
   el.btnStart.textContent = '暫停'
+  el.progressRing.classList.add('running')
 
   STATE.intervalId = setInterval(() => {
     STATE.secondsLeft -= 1
@@ -163,6 +201,7 @@ function enterPhase(phase) {
   STATE.phase = phase
   STATE.secondsLeft = STATE.totalSeconds = phaseDuration(phase)
   el.btnStart.textContent = '開始'
+  el.phaseLabel.textContent = phaseText(phase)
   document.body.classList.toggle('break-mode', phase !== 'work')
   updateTabs()
   updateDisplay()
@@ -207,7 +246,7 @@ el.tabBtns.forEach(btn => {
 })
 
 el.settingsToggle.addEventListener('click', () => {
-  el.settingsPanel.hidden = !el.settingsPanel.hidden
+  el.settingsPanel.classList.toggle('open')
 })
 
 el.btnApply.addEventListener('click', () => {
@@ -229,10 +268,11 @@ el.btnApply.addEventListener('click', () => {
   stopTimer()
   enterPhase(STATE.phase)
 
-  el.settingsPanel.hidden = true
+  el.settingsPanel.classList.remove('open')
 })
 
 // ── 初始化 ──────────────────────────────────────────────────────
+initTickMarks()
 updateTabs()
 updateDisplay()
 updateDots()
