@@ -36,15 +36,15 @@ $repoPath = (Get-Location).Path
 $encoded = $repoPath -replace ':', '-' -replace '\\', '-' -replace ' ', '-'
 $target = "$env:USERPROFILE\.claude\projects\$encoded"
 New-Item -ItemType Directory -Path $target -Force
-New-Item -ItemType Junction -Path "$target\memory" -Target "$repoPath\memory"
+New-Item -ItemType Junction -Path "$target\memory" -Target "$repoPath\memory" -Force
 ```
 
 **CLI Skills Junction**
 ```powershell
 $base = (Get-Location).Path
-New-Item -ItemType Junction -Path "$base\.claude\skills\ai-image-generation" -Target "$base\.agents\skills\ai-image-generation"
-New-Item -ItemType Junction -Path "$base\.claude\skills\find-skills" -Target "$base\.agents\skills\find-skills"
-New-Item -ItemType Junction -Path "$base\.claude\skills\karpathy-guidelines" -Target "$base\.agents\skills\karpathy-guidelines"
+New-Item -ItemType Junction -Path "$base\.claude\skills\ai-image-generation" -Target "$base\.agents\skills\ai-image-generation" -Force
+New-Item -ItemType Junction -Path "$base\.claude\skills\find-skills" -Target "$base\.agents\skills\find-skills" -Force
+New-Item -ItemType Junction -Path "$base\.claude\skills\karpathy-guidelines" -Target "$base\.agents\skills\karpathy-guidelines" -Force
 ```
 
 ## 關鍵技術陷阱（已踩過）
