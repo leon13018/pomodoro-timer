@@ -5,4 +5,5 @@ out/
 outputs/
 .claude/settings.local.json
 .claude/skills/ai-image-generation/
+.claude/skills/find-skills/
 .claude/skills/karpathy-guidelines/
