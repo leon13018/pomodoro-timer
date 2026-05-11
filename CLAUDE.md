@@ -31,4 +31,8 @@ npm start        # 啟動 Electron 應用程式
 
 ## Skills 系統
 
-`.claude/skills/` 目錄存放 Claude Code Skills，實際檔案位於 `.agents/skills/`（Junction 連結）。`skills-lock.json` 記錄已安裝 skill 的來源與 hash。目前已安裝：`frontend-design`、`qiuzhi-creative`、`qiuzhi-skill-creator`、`skill-creator`、`pptx`、`ai-image-generation`、`find-skills`。
+`.claude/skills/` 目錄存放 Claude Code Skills。`skills-lock.json` 記錄 CLI 安裝的 skill 來源與 hash。
+
+已安裝 skills（共 8 個）：
+- **手動放置**（真實目錄，已 commit 至 `.claude/skills/`）：`frontend-design`、`pptx`、`qiuzhi-creative`、`qiuzhi-skill-creator`、`skill-creator`
+- **CLI 安裝**（`.agents/skills/` 真實檔案 + `.claude/skills/` Junction，Junction 已列入 `.gitignore`）：`ai-image-generation`、`find-skills`、`karpathy-guidelines`
