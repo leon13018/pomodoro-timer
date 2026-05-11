@@ -41,7 +41,8 @@
       "Bash(python .claude/skills/qiuzhi-creative/scripts/generate_image.py --prompt 'A minimalist restaurant menu cover for Qiuzhi Restaurant featuring the signature grilled fish. Portrait format. Abundant white space, soft ivory background. A single beautifully plated whole grilled fish as the hero element, styled with elegant simplicity — fresh herbs, delicate garnish, clean plate. Refined thin-stroke typography displaying 秋芝餐廳 and Qiuzhi Restaurant. Mint-green logo placed subtly. No clutter, serene and premium feel, like a high-end Japanese restaurant menu.' --out outputs/qiuzhi_menu_grilled_fish.png)",
       "Bash(git rm *)",
       "Bash(git commit *)",
-      "Bash(npm start *)"
+      "Bash(npm start *)",
+      "Bash(gh api *)"
     ]
   }
 }
