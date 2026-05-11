@@ -1,0 +1,3 @@
+- [使用者偏好](user_preferences.md) — UI 風格、語言、工作習慣
+- [專案回饋](feedback_project.md) — 針對此專案的操作回饋與偏好
+- [專案狀態](project_state.md) — 已完成工作、skills 安裝狀態、技術陷阱
