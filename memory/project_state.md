@@ -28,7 +28,24 @@ type: project
 
 `memory/` 資料夾已 commit 至 repo 根目錄。`~/.claude/projects/.../memory/` 是指向此處的 Junction。Claude Code 讀寫 auto-memory 時會自動落到 repo 裡，`git push` 即同步。
 
-新機器 clone 後需手動建立 Junction，指令見 CLAUDE.md「換機器 / 新環境設定」段落。
+新機器 clone 後需手動建立 Junction，執行以下指令（在專案目錄下）：
+
+**Memory Junction**
+```powershell
+$repoPath = (Get-Location).Path
+$encoded = $repoPath -replace ':', '-' -replace '\\', '-' -replace ' ', '-'
+$target = "$env:USERPROFILE\.claude\projects\$encoded"
+New-Item -ItemType Directory -Path $target -Force
+New-Item -ItemType Junction -Path "$target\memory" -Target "$repoPath\memory"
+```
+
+**CLI Skills Junction**
+```powershell
+$base = (Get-Location).Path
+New-Item -ItemType Junction -Path "$base\.claude\skills\ai-image-generation" -Target "$base\.agents\skills\ai-image-generation"
+New-Item -ItemType Junction -Path "$base\.claude\skills\find-skills" -Target "$base\.agents\skills\find-skills"
+New-Item -ItemType Junction -Path "$base\.claude\skills\karpathy-guidelines" -Target "$base\.agents\skills\karpathy-guidelines"
+```
 
 ## 關鍵技術陷阱（已踩過）
 
