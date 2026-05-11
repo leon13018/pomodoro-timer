@@ -7,6 +7,12 @@
       "skillPath": "tools/image/ai-image-generation/SKILL.md",
       "computedHash": "c3422219915efc1d9c3bb72378b48c9ce61598501a81398c3412a5a58b161bed"
     },
+    "axi-front-design": {
+      "source": "bbostaice/axi-front-design-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "e7cda87222c627582f26616708bea96c9090194c1a2e9afb2a608dae2a2b4935"
+    },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",
