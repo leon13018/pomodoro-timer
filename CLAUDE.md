@@ -36,3 +36,28 @@ npm start        # 啟動 Electron 應用程式
 已安裝 skills（共 8 個）：
 - **手動放置**（真實目錄，已 commit 至 `.claude/skills/`）：`frontend-design`、`pptx`、`qiuzhi-creative`、`qiuzhi-skill-creator`、`skill-creator`
 - **CLI 安裝**（`.agents/skills/` 真實檔案 + `.claude/skills/` Junction，Junction 已列入 `.gitignore`）：`ai-image-generation`、`find-skills`、`karpathy-guidelines`
+
+## Auto-Memory 架構
+
+`memory/` 資料夾在 repo 根目錄（已 commit）。`~/.claude/projects/.../memory/` 是指向此處的 Junction，讓 Claude Code 自動讀寫 repo 裡的 memory 檔案。
+
+## 換機器 / 新環境設定
+
+`git clone` + `npm install` 後，需執行以下指令重建 Junction：
+
+**1. Memory Junction（在專案目錄下執行）**
+```powershell
+$repoPath = (Get-Location).Path
+$encoded = $repoPath -replace ':', '-' -replace '\\', '-' -replace ' ', '-'
+$target = "$env:USERPROFILE\.claude\projects\$encoded"
+New-Item -ItemType Directory -Path $target -Force
+New-Item -ItemType Junction -Path "$target\memory" -Target "$repoPath\memory"
+```
+
+**2. CLI Skills Junction（在專案目錄下執行）**
+```powershell
+$base = (Get-Location).Path
+New-Item -ItemType Junction -Path "$base\.claude\skills\ai-image-generation" -Target "$base\.agents\skills\ai-image-generation"
+New-Item -ItemType Junction -Path "$base\.claude\skills\find-skills" -Target "$base\.agents\skills\find-skills"
+New-Item -ItemType Junction -Path "$base\.claude\skills\karpathy-guidelines" -Target "$base\.agents\skills\karpathy-guidelines"
+```
