@@ -8,3 +8,7 @@ outputs/
 .claude/skills/find-skills/
 .claude/skills/karpathy-guidelines/
 .claude/skills/axi-front-design/
+.claude/skills/git-commit/
+.claude/skills/tailwind-design-system/
+.claude/skills/vercel-react-best-practices/
+.claude/skills/documentation-writer/

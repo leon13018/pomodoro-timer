@@ -30,8 +30,8 @@ npm start   # 啟動 Electron
 - `skills-lock.json` 只記錄 CLI 安裝（`npx skills add`）的 skill；手動放置的不出現是正常的。
 - `npx skills update` 在路徑含空格（如 `LIN HONG`）時靜默失敗（DEP0190 bug）。更新方式：刪除 Junction → `npx skills add` 重裝。
 
-## Skills（11 個）
+## Skills（15 個）
 
 手動放置（真實目錄，已 commit）：`frontend-design` `pdf` `pptx` `qiuzhi-creative` `qiuzhi-skill-creator` `skill-creator` `web-design-engineer`
 
-CLI 安裝（`.agents/skills/` 真實檔 + `.claude/skills/` Junction，Junction 已 gitignore）：`ai-image-generation` `axi-front-design` `find-skills` `karpathy-guidelines`
+CLI 安裝（`.agents/skills/` 真實檔 + `.claude/skills/` Junction，Junction 已 gitignore）：`ai-image-generation` `axi-front-design` `documentation-writer` `find-skills` `git-commit` `karpathy-guidelines` `tailwind-design-system` `vercel-react-best-practices`
