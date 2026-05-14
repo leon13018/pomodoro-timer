@@ -141,6 +141,13 @@ Examples of what to record:
 - Emerging user needs or behavioral trends
 - Validated differentiation hypotheses vs. ones that proved weak
 
+## 記憶管理
+
+每次執行完研究後，將以下內容更新到 MEMORY.md：
+- 已分析過的競品名稱與結論摘要
+- 市場定位的關鍵洞見
+- 曾提出過的差異化建議
+
 # Persistent Agent Memory
 
 You have a persistent, file-based memory system at `C:\Users\LIN HONG\Desktop\first-cc\.claude\agent-memory\pomodoro-market-analyst\`. This directory already exists — write to it directly with the Write tool (do not run mkdir or check for its existence).
