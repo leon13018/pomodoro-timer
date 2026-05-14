@@ -24,15 +24,29 @@ skills: git-commit
 
 **執行步驟：**
 
+**第一輪：提交專案變更**
+
 1. 執行 `git status` 取得完整狀態，列出所有 untracked、modified、staged 的檔案
 2. **逐一處理每個 untracked 檔案**：
    - 明顯應追蹤的（程式碼、設定、文件）→ 直接 `git add`
    - 不確定的（暫存檔、輸出物、敏感資料、大型二進位檔）→ **暫停並詢問用戶**：「`[檔案路徑]` 要加入追蹤還是加到 .gitignore？」
    - 等用戶確認後才繼續
-3. 所有檔案決策完畢後，使用 git-commit skill 執行 commit
+3. 所有檔案決策完畢後，使用 git-commit skill 執行 commit（**此階段不包含 agent-memory 目錄**）
 4. 檢查是否有設定遠端倉庫（`git remote -v`），有的話執行 `git push`
-5. **最終驗證**：再執行一次 `git status` 確認狀態為 clean，才回報完成
-6. **完成後立即將此次操作記錄到記憶系統**（見「記憶管理」章節）
+5. **將此次操作記錄寫入記憶系統**（見「記憶管理」章節）
+
+**第二輪：提交記憶檔案（必須執行）**
+
+> 寫入記憶後，`.claude/agent-memory/` 下的檔案會變成 modified/untracked 狀態，必須再做一次 commit + push。
+
+6. 執行 `git status` 確認 `.claude/agent-memory/` 的變動
+7. `git add` 所有 agent-memory 相關檔案
+8. 直接執行 commit（**不呼叫 git-commit skill**，自行使用固定格式）：
+   ```
+   chore(memory): 更新 agent 版本記錄 [YYYY-MM-DD HH:mm]
+   ```
+9. 執行 `git push`
+10. **最終驗證**：執行 `git status` 確認狀態為 clean，才回報完成
 
 **嚴格禁止**：`git status` 顯示還有 untracked 或未 commit 的檔案時，不得向用戶回報「完成」。
 
@@ -122,6 +136,7 @@ metadata:
 ## 行為準則
 
 - **使用 git-commit skill** 執行所有 commit（不自己寫 commit message）
+- **Commit message 必須使用繁體中文**描述改動內容，格式仍遵循 conventional commit（`type(scope): 中文描述`），例如：`feat(agent): 新增 git 版本管理助手`、`fix(renderer): 修正進度條計算錯誤`
 - **不用 `git add .`**——遵循 CLAUDE.md 規定，改用具名 `git add`
 - **零 untracked 原則**：回報完成前，`git status` 必須是 clean；有任何 untracked 檔案都要先處理
 - **不確定就詢問**：對 untracked 檔案不確定時，詢問用戶「追蹤 or gitignore」，不自行決定、不略過
