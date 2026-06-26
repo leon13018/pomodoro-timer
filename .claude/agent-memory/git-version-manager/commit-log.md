@@ -5,6 +5,18 @@ metadata:
   type: project
 ---
 
+## 2026-06-26
+
+### feat(renderer): 新增設定持久化，重啟後保留時長與置頂狀態
+- **Hash**：`1b27e9f`
+- **Branch**：`main`
+- **已 Push**：否（等使用者確認）
+- **修改檔案**：
+  - M `renderer/renderer.js`（+41 -2）
+- **摘要**：新增 `loadSettings()` 與 `saveSettings()`，透過 localStorage（key: `pomodoro-settings`）在 App 重啟後保留工作、短休、長休時長及視窗置頂勾選狀態；同時調整初始化順序，確保初始畫面依還原後的 CONFIG 同步顯示，修復重啟後設定遺失的問題。
+
+---
+
 ## 2026-05-14
 
 ### 第 6 次 commit | chore(memory): 更新 agent 版本記錄
