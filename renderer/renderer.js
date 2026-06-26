@@ -264,6 +264,7 @@ el.btnApply.addEventListener('click', () => {
   CONFIG.longBreak = l * 60
 
   window.electronAPI?.toggleAlwaysOnTop(el.setOnTop.checked)
+  saveSettings()
 
   stopTimer()
   enterPhase(STATE.phase)
@@ -271,8 +272,46 @@ el.btnApply.addEventListener('click', () => {
   el.settingsPanel.classList.remove('open')
 })
 
+// ── 設定持久化 ──────────────────────────────────────────────────
+
+const STORAGE_KEY = 'pomodoro-settings'
+
+// 啟動時讀回設定：套用到 CONFIG（秒）、填入輸入欄位、還原視窗置頂。
+// localStorage 以「分鐘」儲存，與輸入欄位一致且方便人工閱讀。
+function loadSettings() {
+  let saved = null
+  try {
+    saved = JSON.parse(localStorage.getItem(STORAGE_KEY))
+  } catch {
+    saved = null  // 內容毀損時退回預設值
+  }
+  if (!saved) return
+
+  if (Number.isFinite(saved.work))       CONFIG.work       = saved.work * 60
+  if (Number.isFinite(saved.shortBreak)) CONFIG.shortBreak = saved.shortBreak * 60
+  if (Number.isFinite(saved.longBreak))  CONFIG.longBreak  = saved.longBreak * 60
+
+  el.setWork.value  = CONFIG.work / 60
+  el.setShort.value = CONFIG.shortBreak / 60
+  el.setLong.value  = CONFIG.longBreak / 60
+  el.setOnTop.checked = !!saved.alwaysOnTop
+
+  window.electronAPI?.toggleAlwaysOnTop(!!saved.alwaysOnTop)
+}
+
+// 套用設定時寫入 localStorage（以分鐘為單位）
+function saveSettings() {
+  const data = {
+    work:        CONFIG.work / 60,
+    shortBreak:  CONFIG.shortBreak / 60,
+    longBreak:   CONFIG.longBreak / 60,
+    alwaysOnTop: el.setOnTop.checked,
+  }
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+}
+
 // ── 初始化 ──────────────────────────────────────────────────────
+loadSettings()       // 先還原設定，再依還原後的 CONFIG 建立初始畫面
 initTickMarks()
-updateTabs()
-updateDisplay()
+enterPhase('work')   // 依（可能已還原的）CONFIG 重新同步 STATE 與顯示
 updateDots()
